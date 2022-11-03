@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import se.iths.tt.javafxtt.labb3.CircleTemplate;
-import se.iths.tt.javafxtt.labb3.model.LabbThreeModel;
 
 import java.util.List;
 
@@ -34,8 +33,6 @@ public class LabbThreeController {
     public TitledPane shapeAccordionButton;
     public ToggleGroup shapeGroup;
 
-    private boolean circle;
-    private boolean square;
     List<CircleTemplate> numberOfCircles;
     List<Integer> numberOfSquares;
 
@@ -58,16 +55,15 @@ public class LabbThreeController {
 
     public void drawShapeOnClick(MouseEvent mouseEvent) {
         Color chosenColor = colorPicker.getValue();
+        graphicsContext.setFill(chosenColor);
         if (circleRadioButton.isSelected()) {
-            graphicsContext.setFill(chosenColor);
-            graphicsContext.fillOval(mouseEvent.getX()-10, mouseEvent.getY()-10, 50, 50);
+            graphicsContext.fillOval(mouseEvent.getX()-10, mouseEvent.getY()-10, currentSize(), currentSize());
         } else if (squareRadioButton.isSelected()) {
-            graphicsContext.setFill(chosenColor);
-            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), 50, 50);
+            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), currentSize(), currentSize());
         }
     }
 
-    public void changeSize(){
-        sizeSlider.getMin();
+    public double currentSize(){
+        return sizeSlider.getValue();
     }
 }

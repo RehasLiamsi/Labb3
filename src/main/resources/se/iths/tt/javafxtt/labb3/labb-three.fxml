@@ -46,7 +46,7 @@
             </TitledPane>
             <TitledPane fx:id="sizeAccordionButton" animated="false" layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="131.0" text="Size">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <Slider fx:id="sizeSlider" layoutX="56.0" layoutY="14.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="14.0" />
+                    <Slider fx:id="sizeSlider" layoutX="56.0" layoutY="14.0" min="10.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="14.0" value="20.0" />
                 </AnchorPane>
             </TitledPane>
         </panes>

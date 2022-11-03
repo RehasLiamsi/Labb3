@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.tt.javafxtt.labb3.controller.LabbThreeController">
+   <top>
+       <MenuBar prefWidth="600.0">
+           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+               <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveToFile" text="Save" />
+               <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+           </Menu>
+           <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
+               <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
+           </Menu>
+           <!--<Menu fx:id="shapesMenu" mnemonicParsing="false" text="Shapes">
+               <MenuItem fx:id="circleButton" mnemonicParsing="false" onAction="#drawCircleOnScreen" text="Circle" />
+               <MenuItem fx:id="squareButton" mnemonicParsing="false" onAction="#drawSquareOnScreen" text="Square" />
+           </Menu>-->
+       </MenuBar>
+   </top>
+   <center>
+      <Canvas fx:id="canvas" height="373.0" onMouseClicked="#drawShapeOnClick" width="470.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <Accordion fx:id="accordionMenu" prefHeight="375.0" prefWidth="127.0" BorderPane.alignment="CENTER">
+        <panes>
+            <TitledPane fx:id="shapeAccordionButton" animated="false" prefHeight="350.0" prefWidth="131.0" text="Choose Shape">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <RadioButton fx:id="circleRadioButton" layoutX="19.0" layoutY="68.0" mnemonicParsing="false" text="Circle">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="shapeGroup" />
+                     </toggleGroup></RadioButton>
+                    <RadioButton fx:id="squareRadioButton" layoutX="19.0" layoutY="131.0" mnemonicParsing="false" text="Square" toggleGroup="$shapeGroup" />
+                </AnchorPane>
+            </TitledPane>
+            <TitledPane fx:id="colorAccordionButton" animated="false" text="Color">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <ColorPicker fx:id="colorPicker" layoutY="78.0">
+                     <value>
+                        <Color />
+                     </value></ColorPicker>
+                </AnchorPane>
+            </TitledPane>
+            <TitledPane fx:id="sizeAccordionButton" animated="false" layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="131.0" text="Size">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <Slider fx:id="sizeSlider" layoutX="56.0" layoutY="14.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="14.0" />
+                </AnchorPane>
+            </TitledPane>
+        </panes>
+      </Accordion>
+   </right>
+</BorderPane>

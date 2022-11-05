@@ -15,10 +15,6 @@
            <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
                <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
            </Menu>
-           <!--<Menu fx:id="shapesMenu" mnemonicParsing="false" text="Shapes">
-               <MenuItem fx:id="circleButton" mnemonicParsing="false" onAction="#drawCircleOnScreen" text="Circle" />
-               <MenuItem fx:id="squareButton" mnemonicParsing="false" onAction="#drawSquareOnScreen" text="Square" />
-           </Menu>-->
        </MenuBar>
    </top>
    <center>

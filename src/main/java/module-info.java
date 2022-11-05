@@ -7,4 +7,5 @@ module se.iths.tt.javafxtt {
     exports se.iths.tt.javafxtt;
     exports se.iths.tt.javafxtt.labb3;
     exports se.iths.tt.javafxtt.labb3.controller;
+    exports se.iths.tt.javafxtt.labb3.model;
 }

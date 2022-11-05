@@ -7,20 +7,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import se.iths.tt.javafxtt.labb3.CircleTemplate;
+import se.iths.tt.javafxtt.labb3.model.CircleTemplate;
+import se.iths.tt.javafxtt.labb3.model.LabbThreeModel;
+import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
+import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
 
 import java.util.List;
 
 public class LabbThreeController {
 
+    LabbThreeModel labbThreeModel = new LabbThreeModel();
     public Menu fileMenu;
     public MenuItem saveButton;
     public MenuItem closeButton;
     public Menu editButton;
     public MenuItem undoButton;
-    public Menu shapesMenu;
-    public MenuItem circleButton;
-    public MenuItem squareButton;
     public Canvas canvas;
     public GraphicsContext graphicsContext;
     public Accordion accordionMenu;
@@ -32,9 +33,9 @@ public class LabbThreeController {
     public RadioButton squareRadioButton;
     public TitledPane shapeAccordionButton;
     public ToggleGroup shapeGroup;
+    public Color chosenColor;
+    ShapeTemplate shape = new ShapeTemplate();
 
-    List<CircleTemplate> numberOfCircles;
-    List<Integer> numberOfSquares;
 
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
@@ -45,25 +46,40 @@ public class LabbThreeController {
 
     }
 
-    public void closeApplication(ActionEvent actionEvent) {
-        Platform.exit();
-    }
-
     public void undoLastMove(ActionEvent actionEvent) {
 
     }
 
     public void drawShapeOnClick(MouseEvent mouseEvent) {
-        Color chosenColor = colorPicker.getValue();
+        chosenColor = colorPicker.getValue();
         graphicsContext.setFill(chosenColor);
+
         if (circleRadioButton.isSelected()) {
-            graphicsContext.fillOval(mouseEvent.getX()-10, mouseEvent.getY()-10, currentSize(), currentSize());
+            drawCircle(mouseEvent);
         } else if (squareRadioButton.isSelected()) {
-            graphicsContext.fillRect(mouseEvent.getX(), mouseEvent.getY(), currentSize(), currentSize());
+            drawSquare(mouseEvent);
         }
     }
 
-    public double currentSize(){
-        return sizeSlider.getValue();
+    private void drawSquare(MouseEvent mouseEvent) {
+        SquareTemplate square = new SquareTemplate();
+        square.setxCoordinate(mouseEvent.getX());
+        square.setyCoordinate(mouseEvent.getY());
+        square.setSize(sizeSlider.getValue());
+
+        graphicsContext.fillRect(square.getxCoordinate(), square.getyCoordinate(), square.getSize(), square.getSize());
+    }
+
+    private void drawCircle(MouseEvent mouseEvent) {
+        CircleTemplate circle = new CircleTemplate();
+        circle.setxCoordinate(mouseEvent.getX());
+        circle.setyCoordinate(mouseEvent.getY());
+        circle.setSize(sizeSlider.getValue());
+
+        graphicsContext.fillOval(circle.getxCoordinate(), circle.getyCoordinate(), circle.getSize(), circle.getSize());
+    }
+
+    public void closeApplication(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }

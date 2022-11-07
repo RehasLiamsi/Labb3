@@ -13,12 +13,14 @@
                <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
            </Menu>
            <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
-               <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
+               <MenuItem fx:id="changeColor" mnemonicParsing="false" onAction="#undoLastMove" text="Change color" />
+            <MenuItem fx:id="changeSize" mnemonicParsing="false" onAction="#undoLastMove" text="Change size" />
+            <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
            </Menu>
        </MenuBar>
    </top>
    <center>
-      <Canvas fx:id="canvas" height="373.0" onMouseClicked="#drawShapeOnClick" width="470.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="373.0" onMouseClicked="#canvasClicked" width="470.0" BorderPane.alignment="CENTER" />
    </center>
    <right>
       <Accordion fx:id="accordionMenu" prefHeight="375.0" prefWidth="127.0" BorderPane.alignment="CENTER">

@@ -1,6 +1,7 @@
 module se.iths.tt.javafxtt {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens se.iths.tt.javafxtt to javafx.fxml;

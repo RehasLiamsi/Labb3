@@ -6,20 +6,18 @@
 <?import javafx.scene.paint.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.tt.javafxtt.labb3.controller.LabbThreeController">
-   <top>
-       <MenuBar prefWidth="600.0">
-           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
-               <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveToFile" text="Save" />
-               <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
-           </Menu>
-           <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
-               <MenuItem fx:id="changeColor" mnemonicParsing="false" onAction="#undoLastMove" text="Change color" />
-            <MenuItem fx:id="changeSize" mnemonicParsing="false" onAction="#undoLastMove" text="Change size" />
-            <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
-           </Menu>
-       </MenuBar>
-   </top>
-   <center>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+                <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveToFile" text="Save"/>
+                <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close"/>
+            </Menu>
+            <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
+                <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
       <Canvas fx:id="canvas" height="373.0" onMouseClicked="#canvasClicked" width="470.0" BorderPane.alignment="CENTER" />
    </center>
    <right>

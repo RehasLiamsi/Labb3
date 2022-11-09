@@ -91,30 +91,38 @@ public class LabbThreeController {
     }
 
     private void drawCircle(MouseEvent mouseEvent) {
-        /*ShapeBuilder shapeBuilder = new ShapeBuilder();
+        ShapeBuilder shapeBuilder = new ShapeBuilder();
         ShapeTemplate circle = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
-                .build();*/
+                .build();
 
-        ShapeTemplate circle = new ShapeTemplate();
+       /* ShapeTemplate circle = new ShapeTemplate();
         circle.setxCoordinate(mouseEvent.getX());
         circle.setyCoordinate(mouseEvent.getY());
         circle.setSize(sizeSlider.getValue());
-        circle.setChosenColor(chosenColor);
+        circle.setChosenColor(chosenColor);*/
         shape.addToListOfShapes(circle);
 
         graphicsContext.fillOval(circle.centerOfShapeForX(), circle.centerOfShapeForY(), circle.getSize(), circle.getSize());
     }
 
     private void drawSquare(MouseEvent mouseEvent) {
-        ShapeTemplate square = new SquareTemplate();
+        ShapeBuilder shapeBuilder = new ShapeBuilder();
+        ShapeTemplate square = shapeBuilder
+                .setxCoordinate(mouseEvent.getX())
+                .setyCoordinate(mouseEvent.getY())
+                .setSize(sizeSlider.getValue())
+                .setChosenColor(chosenColor)
+                .build();
+
+        /*ShapeTemplate square = new SquareTemplate();
         square.setxCoordinate(mouseEvent.getX());
         square.setyCoordinate(mouseEvent.getY());
         square.sizeProperty().bind(sizeSlider.valueProperty());
-        square.setChosenColor(chosenColor);
+        square.setChosenColor(chosenColor);*/
         shape.addToListOfShapes(square);
 
         graphicsContext.fillRect(square.centerOfShapeForX(), square.centerOfShapeForY(), square.getSize(), square.getSize());

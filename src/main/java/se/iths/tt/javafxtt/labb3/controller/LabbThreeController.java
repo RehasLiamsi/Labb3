@@ -5,19 +5,16 @@ import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import se.iths.tt.javafxtt.labb3.model.CircleTemplate;
 import se.iths.tt.javafxtt.labb3.model.ShapeBuilder;
 import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
 import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
 
-import javax.imageio.ImageIO;
 import java.io.File;
-import java.io.IOException;
-import java.awt.image.RenderedImage;
 
 public class LabbThreeController {
 
@@ -43,7 +40,6 @@ public class LabbThreeController {
     public Stage stage;
 
     ShapeTemplate shape = new ShapeTemplate();
-
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
         shape.setChosenColor(colorPicker.getValue());
@@ -69,13 +65,15 @@ public class LabbThreeController {
     private void selectingExistingShape(MouseEvent mouseEvent) {
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
             var thisShape = shape.getObservableListOfShapes().get(i);
-            if (new ShapeTemplate().isInsideShape(thisShape, mouseEvent.getX(), mouseEvent.getY())) {
+            if(new SquareTemplate().isInsideShape(thisShape,mouseEvent.getX(),mouseEvent.getY())
+                    || (new CircleTemplate().isInsideShape(thisShape, mouseEvent.getX(), mouseEvent.getY()))) {
                 System.out.println("Existing shape");
                 selectShape(thisShape);
             }
 
         }
     }
+
 
     private void selectShape(ShapeTemplate shape) {
         sizeSlider.valueProperty().bindBidirectional(shape.sizeProperty());
@@ -92,12 +90,12 @@ public class LabbThreeController {
 
     private void drawCircle(MouseEvent mouseEvent) {
         ShapeBuilder shapeBuilder = new ShapeBuilder();
-        ShapeTemplate circle = shapeBuilder
+        CircleTemplate circle = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
-                .build();
+                .buildCircle();
 
        /* ShapeTemplate circle = new ShapeTemplate();
         circle.setxCoordinate(mouseEvent.getX());
@@ -111,12 +109,13 @@ public class LabbThreeController {
 
     private void drawSquare(MouseEvent mouseEvent) {
         ShapeBuilder shapeBuilder = new ShapeBuilder();
-        ShapeTemplate square = shapeBuilder
+        SquareTemplate square = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
-                .build();
+                .buildSquare();
+        
 
         /*ShapeTemplate square = new SquareTemplate();
         square.setxCoordinate(mouseEvent.getX());

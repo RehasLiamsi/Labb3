@@ -37,7 +37,9 @@ public class ShapeBuilder {
         return this;
     }
 
-    public ShapeTemplate build() {
-        return new ShapeTemplate(xCoordinate, yCoordinate, size, chosenColor);
+    public SquareTemplate buildSquare() {
+        return new SquareTemplate(xCoordinate, yCoordinate, size, chosenColor);
     }
+
+    public CircleTemplate buildCircle() {return new CircleTemplate(xCoordinate, yCoordinate, size, chosenColor);}
 }

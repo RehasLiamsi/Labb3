@@ -10,10 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import se.iths.tt.javafxtt.labb3.model.CircleTemplate;
-import se.iths.tt.javafxtt.labb3.model.ShapeBuilder;
-import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
-import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
+import se.iths.tt.javafxtt.labb3.model.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class LabbThreeController {
 
@@ -78,7 +78,6 @@ public class LabbThreeController {
     private void selectShape(ShapeTemplate thisShape, MouseEvent mouseEvent) {
         clearCanvas();
         thisShape.setSize(sizeSlider.getValue());
-
         thisShape.setChosenColor(colorPicker.getValue());
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
             graphicsContext.setFill(shape.getObservableListOfShapes().get(i).getChosenColor());
@@ -105,14 +104,18 @@ public class LabbThreeController {
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(colorPicker.getValue())
                 .buildCircle();
+        addToList(newCircle);
+        Command undo = () -> shape.getObservableListOfShapes().remove(newCircle);
+        shape.getUndoDeque().push(undo);
         return newCircle;
     }
 
     private void drawCircle(ShapeTemplate circle, MouseEvent mouseEvent) {
-        shape.addToListOfShapes(circle);
-        //graphicsContext.setFill(shape.getChosenColor());
-
         circle.draw(graphicsContext);
+    }
+
+    private void addToList(ShapeTemplate newShape) {
+        shape.addToListOfShapes(newShape);
     }
 
     private ShapeTemplate createSquareObject(MouseEvent mouseEvent) {
@@ -122,12 +125,11 @@ public class LabbThreeController {
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(colorPicker.getValue())
                 .buildSquare();
+        addToList(newSquare);
         return newSquare;
     }
 
     private void drawSquare(ShapeTemplate square, MouseEvent mouseEvent) {
-        shape.addToListOfShapes(square);
-        graphicsContext.setFill(shape.getChosenColor());
 
         square.draw(graphicsContext);
 
@@ -135,8 +137,13 @@ public class LabbThreeController {
     }
 
     public void undoLastMove(ActionEvent actionEvent) {
-
+        Command undoToExecute = shape.getUndoDeque().pop();
+        undoToExecute.execute();
+        for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
+            shape.getObservableListOfShapes().get(i).draw(graphicsContext);
+        }
     }
+
 
     public void saveToFile() {
         shape.saveFileToPng(canvas, stage);
@@ -146,3 +153,5 @@ public class LabbThreeController {
         Platform.exit();
     }
 }
+
+

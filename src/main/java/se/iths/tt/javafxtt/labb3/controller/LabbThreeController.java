@@ -138,26 +138,7 @@ public class LabbThreeController {
     }
 
     public void saveToFile(ActionEvent actionEvent) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save as");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.getExtensionFilters().clear();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
-
-        File file = fileChooser.showSaveDialog(stage);
-
-        if(file != null) {
-            WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
-            canvas.snapshot(null, image);
-            RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
-            try{
-                ImageIO.write(renderedImage, "png", file);
-            }
-            catch (IOException e) {
-                System.out.println("Error");
-            }
-        }
-
+        shape.saveFileToPng(canvas,stage);
     }
 
     public void closeApplication() {

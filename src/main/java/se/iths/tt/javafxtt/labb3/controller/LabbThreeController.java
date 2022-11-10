@@ -79,6 +79,8 @@ public class LabbThreeController {
         clearCanvas();
         thisShape.setSize(sizeSlider.getValue());
         thisShape.setChosenColor(colorPicker.getValue());
+        shape.addToUndoStack(thisShape);
+
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
             graphicsContext.setFill(shape.getObservableListOfShapes().get(i).getChosenColor());
             shape.getObservableListOfShapes().get(i).draw(graphicsContext);
@@ -105,8 +107,9 @@ public class LabbThreeController {
                 .setChosenColor(colorPicker.getValue())
                 .buildCircle();
         addToList(newCircle);
-        Command undo = () -> shape.getObservableListOfShapes().remove(newCircle);
-        shape.getUndoDeque().push(undo);
+        shape.addToUndoStack(newCircle);
+        System.out.println("Before undo is list " + shape.getObservableListOfShapes().size());
+
         return newCircle;
     }
 
@@ -126,20 +129,20 @@ public class LabbThreeController {
                 .setChosenColor(colorPicker.getValue())
                 .buildSquare();
         addToList(newSquare);
+        shape.addToUndoStack(newSquare);
         return newSquare;
     }
 
     private void drawSquare(ShapeTemplate square, MouseEvent mouseEvent) {
-
         square.draw(graphicsContext);
-
-
     }
 
     public void undoLastMove(ActionEvent actionEvent) {
-        Command undoToExecute = shape.getUndoDeque().pop();
-        undoToExecute.execute();
+        shape.undoLastShape();
+        System.out.println("After undo is list " + shape.getObservableListOfShapes().size());
+        clearCanvas();
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
+            graphicsContext.setFill(shape.getObservableListOfShapes().get(i).getChosenColor());
             shape.getObservableListOfShapes().get(i).draw(graphicsContext);
         }
     }

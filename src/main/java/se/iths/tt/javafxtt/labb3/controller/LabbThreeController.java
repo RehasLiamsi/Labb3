@@ -1,10 +1,19 @@
 package se.iths.tt.javafxtt.labb3.controller;
 
+import javafx.embed.swing.SwingFXUtils;
+
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -14,7 +23,12 @@ import se.iths.tt.javafxtt.labb3.model.ShapeBuilder;
 import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
 import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
 
+
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 
 public class LabbThreeController {
 
@@ -35,8 +49,6 @@ public class LabbThreeController {
     public TitledPane shapeAccordionButton;
     public ToggleGroup shapeGroup;
     public Color chosenColor;
-    public MenuItem changeSize;
-    public MenuItem changeColor;
     public Stage stage;
 
     ShapeTemplate shape = new ShapeTemplate();
@@ -76,8 +88,15 @@ public class LabbThreeController {
 
 
     private void selectShape(ShapeTemplate shape) {
-        sizeSlider.valueProperty().bindBidirectional(shape.sizeProperty());
-        colorPicker.valueProperty().bindBidirectional(shape.chosenColorProperty());
+        sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                shape.setSize(sizeSlider.getValue());
+            }
+        });
+
+        /*sizeSlider.valueProperty().bindBidirectional(shape.sizeProperty());
+        colorPicker.valueProperty().bindBidirectional(shape.chosenColorProperty());*/
     }
 
     private void drawShape(MouseEvent mouseEvent) {
@@ -96,12 +115,6 @@ public class LabbThreeController {
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
                 .buildCircle();
-
-       /* ShapeTemplate circle = new ShapeTemplate();
-        circle.setxCoordinate(mouseEvent.getX());
-        circle.setyCoordinate(mouseEvent.getY());
-        circle.setSize(sizeSlider.getValue());
-        circle.setChosenColor(chosenColor);*/
         shape.addToListOfShapes(circle);
 
         graphicsContext.fillOval(circle.centerOfShapeForX(), circle.centerOfShapeForY(), circle.getSize(), circle.getSize());
@@ -115,13 +128,6 @@ public class LabbThreeController {
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
                 .buildSquare();
-        
-
-        /*ShapeTemplate square = new SquareTemplate();
-        square.setxCoordinate(mouseEvent.getX());
-        square.setyCoordinate(mouseEvent.getY());
-        square.sizeProperty().bind(sizeSlider.valueProperty());
-        square.setChosenColor(chosenColor);*/
         shape.addToListOfShapes(square);
 
         graphicsContext.fillRect(square.centerOfShapeForX(), square.centerOfShapeForY(), square.getSize(), square.getSize());
@@ -136,18 +142,20 @@ public class LabbThreeController {
         fileChooser.setTitle("Save as");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().clear();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BMP", "*.bmp"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
 
         File file = fileChooser.showSaveDialog(stage);
+
         if(file != null) {
-            /*try {
-                WritableImage writableImage = new WritableImage(470, 374);
-                canvas.snapshot(null, writableImage);
-                RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
-                ImageIO.write(renderedImage, ".bmp", file);
-            } catch (IOException ex) {
-                System.out.println("Error!");
-            }*/
+            WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+            canvas.snapshot(null, image);
+            RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+            try{
+                ImageIO.write(renderedImage, "png", file);
+            }
+            catch (IOException e) {
+                System.out.println("Error");
+            }
         }
 
     }

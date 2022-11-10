@@ -77,8 +77,10 @@ public class LabbThreeController {
 
     private void selectShape(ShapeTemplate thisShape, MouseEvent mouseEvent) {
         clearCanvas();
-        thisShape.setSize(sizeSlider.getValue());
-        thisShape.setChosenColor(colorPicker.getValue());
+        if(colorAccordionButton.isExpanded())
+            thisShape.setChosenColor(colorPicker.getValue());
+        else if(sizeAccordionButton.isExpanded())
+            thisShape.setSize(sizeSlider.getValue());
         shape.addToUndoStack(thisShape);
 
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {

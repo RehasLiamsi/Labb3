@@ -1,34 +1,19 @@
 package se.iths.tt.javafxtt.labb3.controller;
 
-import javafx.embed.swing.SwingFXUtils;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import se.iths.tt.javafxtt.labb3.model.CircleTemplate;
 import se.iths.tt.javafxtt.labb3.model.ShapeBuilder;
 import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
 import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
-
-
-import javax.imageio.ImageIO;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.IOError;
-import java.io.IOException;
 
 public class LabbThreeController {
 
@@ -51,6 +36,7 @@ public class LabbThreeController {
     public Color chosenColor;
     public Stage stage;
 
+    ShapeBuilder shapeBuilder = new ShapeBuilder();
     ShapeTemplate shape = new ShapeTemplate();
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
@@ -88,10 +74,13 @@ public class LabbThreeController {
 
 
     private void selectShape(ShapeTemplate shape) {
+        graphicsContext.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+        shape.getObservableListOfShapes().remove(shape);
+
         sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                shape.setSize(sizeSlider.getValue());
+
             }
         });
 
@@ -108,20 +97,18 @@ public class LabbThreeController {
     }
 
     private void drawCircle(MouseEvent mouseEvent) {
-        ShapeBuilder shapeBuilder = new ShapeBuilder();
-        CircleTemplate circle = shapeBuilder
+        CircleTemplate newCircle = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
                 .setChosenColor(chosenColor)
                 .buildCircle();
-        shape.addToListOfShapes(circle);
+        shape.addToListOfShapes(newCircle);
 
-        graphicsContext.fillOval(circle.centerOfShapeForX(), circle.centerOfShapeForY(), circle.getSize(), circle.getSize());
+        newCircle.draw(graphicsContext);
     }
 
     private void drawSquare(MouseEvent mouseEvent) {
-        ShapeBuilder shapeBuilder = new ShapeBuilder();
         SquareTemplate square = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
@@ -130,14 +117,16 @@ public class LabbThreeController {
                 .buildSquare();
         shape.addToListOfShapes(square);
 
-        graphicsContext.fillRect(square.centerOfShapeForX(), square.centerOfShapeForY(), square.getSize(), square.getSize());
+        square.draw(graphicsContext);
+
+
     }
 
     public void undoLastMove(ActionEvent actionEvent) {
 
     }
 
-    public void saveToFile(ActionEvent actionEvent) {
+    public void saveToFile() {
         shape.saveFileToPng(canvas,stage);
     }
 

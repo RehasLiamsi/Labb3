@@ -37,9 +37,33 @@ public class ShapeBuilder {
         return this;
     }
 
-    public SquareTemplate buildSquare() {
-        return new SquareTemplate(xCoordinate, yCoordinate, size, chosenColor);
+    public double getxCoordinate() {
+        return xCoordinate;
     }
 
-    public CircleTemplate buildCircle() {return new CircleTemplate(xCoordinate, yCoordinate, size, chosenColor);}
+    public double getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public double getSize() {
+        return size.get();
+    }
+
+    public DoubleProperty sizeProperty() {
+        return size;
+    }
+
+    public Color getChosenColor() {
+        return chosenColor.get();
+    }
+
+    public ObjectProperty<Color> chosenColorProperty() {
+        return chosenColor;
+    }
+
+    public SquareTemplate buildSquare() {
+        return new SquareTemplate(xCoordinate, yCoordinate, getSize(), getChosenColor());
+    }
+
+    public CircleTemplate buildCircle() {return new CircleTemplate(xCoordinate, yCoordinate, getSize(), getChosenColor());}
 }

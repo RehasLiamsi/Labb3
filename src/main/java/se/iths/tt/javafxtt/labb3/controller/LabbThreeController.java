@@ -33,14 +33,17 @@ public class LabbThreeController {
     public RadioButton squareRadioButton;
     public TitledPane shapeAccordionButton;
     public ToggleGroup shapeGroup;
-    public Color chosenColor;
+    public Color color;
     public Stage stage;
+    public TitledPane editAccordionButton;
+    public CheckBox editCheckBox;
 
     ShapeBuilder shapeBuilder = new ShapeBuilder();
     ShapeTemplate shape = new ShapeTemplate();
+
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
-        shape.setChosenColor(colorPicker.getValue());
+        //shape.setChosenColor(colorPicker.getValue());
 
         shape.sizeProperty().bindBidirectional(sizeSlider.valueProperty());
         shape.chosenColorProperty().bindBidirectional(colorPicker.valueProperty());
@@ -54,7 +57,7 @@ public class LabbThreeController {
     public void canvasClicked(MouseEvent mouseEvent) {
         graphicsContext.setFill(shape.getChosenColor());
 
-        if (mouseEvent.isShiftDown()) {
+        if ((editCheckBox.isSelected())) {
             selectingExistingShape(mouseEvent);
         } else
             drawShape(mouseEvent);
@@ -63,59 +66,68 @@ public class LabbThreeController {
     private void selectingExistingShape(MouseEvent mouseEvent) {
         for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
             var thisShape = shape.getObservableListOfShapes().get(i);
-            if(new SquareTemplate().isInsideShape(thisShape,mouseEvent.getX(),mouseEvent.getY())
+            if (new SquareTemplate().isInsideShape(thisShape, mouseEvent.getX(), mouseEvent.getY())
                     || (new CircleTemplate().isInsideShape(thisShape, mouseEvent.getX(), mouseEvent.getY()))) {
                 System.out.println("Existing shape");
-                selectShape(thisShape);
+                selectShape(thisShape, mouseEvent);
             }
-
         }
     }
 
 
-    private void selectShape(ShapeTemplate shape) {
-        graphicsContext.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
-        shape.getObservableListOfShapes().remove(shape);
+    private void selectShape(ShapeTemplate thisShape, MouseEvent mouseEvent) {
+        clearCanvas();
+        thisShape.setSize(sizeSlider.getValue());
 
-        sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+        thisShape.setChosenColor(colorPicker.getValue());
+        for (int i = 0; i < shape.getObservableListOfShapes().size(); i++) {
+            graphicsContext.setFill(shape.getObservableListOfShapes().get(i).getChosenColor());
+            shape.getObservableListOfShapes().get(i).draw(graphicsContext);
+        }
+    }
 
-            }
-        });
-
-        /*sizeSlider.valueProperty().bindBidirectional(shape.sizeProperty());
-        colorPicker.valueProperty().bindBidirectional(shape.chosenColorProperty());*/
+    private void clearCanvas() {
+        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     private void drawShape(MouseEvent mouseEvent) {
         if (circleRadioButton.isSelected()) {
-            drawCircle(mouseEvent);
+            drawCircle(createCircleObject(mouseEvent), mouseEvent);
         } else if (squareRadioButton.isSelected()) {
-            drawSquare(mouseEvent);
+            drawSquare(createSquareObject(mouseEvent), mouseEvent);
         }
     }
 
-    private void drawCircle(MouseEvent mouseEvent) {
-        CircleTemplate newCircle = shapeBuilder
+    private ShapeTemplate createCircleObject(MouseEvent mouseEvent) {
+        ShapeTemplate newCircle = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
-                .setChosenColor(chosenColor)
+                .setChosenColor(colorPicker.getValue())
                 .buildCircle();
-        shape.addToListOfShapes(newCircle);
-
-        newCircle.draw(graphicsContext);
+        return newCircle;
     }
 
-    private void drawSquare(MouseEvent mouseEvent) {
-        SquareTemplate square = shapeBuilder
+    private void drawCircle(ShapeTemplate circle, MouseEvent mouseEvent) {
+        shape.addToListOfShapes(circle);
+        //graphicsContext.setFill(shape.getChosenColor());
+
+        circle.draw(graphicsContext);
+    }
+
+    private ShapeTemplate createSquareObject(MouseEvent mouseEvent) {
+        ShapeTemplate newSquare = shapeBuilder
                 .setxCoordinate(mouseEvent.getX())
                 .setyCoordinate(mouseEvent.getY())
                 .setSize(sizeSlider.getValue())
-                .setChosenColor(chosenColor)
+                .setChosenColor(colorPicker.getValue())
                 .buildSquare();
+        return newSquare;
+    }
+
+    private void drawSquare(ShapeTemplate square, MouseEvent mouseEvent) {
         shape.addToListOfShapes(square);
+        graphicsContext.setFill(shape.getChosenColor());
 
         square.draw(graphicsContext);
 
@@ -127,7 +139,7 @@ public class LabbThreeController {
     }
 
     public void saveToFile() {
-        shape.saveFileToPng(canvas,stage);
+        shape.saveFileToPng(canvas, stage);
     }
 
     public void closeApplication() {

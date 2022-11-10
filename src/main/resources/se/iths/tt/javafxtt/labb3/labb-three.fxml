@@ -9,11 +9,11 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
-                <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveToFile" text="Save"/>
-                <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close"/>
+                <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveToFile" text="Save" />
+                <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
             </Menu>
             <Menu fx:id="editButton" mnemonicParsing="false" text="Edit">
-                <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo"/>
+            <MenuItem fx:id="undoButton" mnemonicParsing="false" onAction="#undoLastMove" text="Undo" />
             </Menu>
         </MenuBar>
     </top>
@@ -44,6 +44,11 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <Slider fx:id="sizeSlider" layoutX="56.0" layoutY="14.0" min="10.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="14.0" value="20.0" />
                 </AnchorPane>
+            </TitledPane>
+            <TitledPane fx:id="editAccordionButton" animated="false" layoutX="10.0" layoutY="60.0" prefHeight="350.0"
+                        prefWidth="131.0" text="Edit shape">
+                <CheckBox fx:id="editCheckBox" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0"
+                          text="Edit existing shape"/>
             </TitledPane>
         </panes>
       </Accordion>

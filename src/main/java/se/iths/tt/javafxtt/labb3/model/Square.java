@@ -15,7 +15,16 @@ public class Square extends Shape{
 
     @Override
     public boolean isInsideShape(double mouseX, double mouseY) {
-        return false;
+        double x = getxCoordinate() - getSize()/2;
+        double y = getyCoordinate() - getSize()/2;
+
+        return  mouseX >= x && mouseX <= x + getSize() &&
+                mouseY >= y && mouseY <= y + getSize();
+    }
+
+    @Override
+    public Shape copyShape() {
+        return new Square(getxCoordinate(), getyCoordinate(), getSize(), getChosenColor());
     }
 
     @Override

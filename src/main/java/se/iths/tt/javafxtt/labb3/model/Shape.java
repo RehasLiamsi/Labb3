@@ -63,6 +63,8 @@ public abstract class Shape {
 
     abstract public boolean isInsideShape(double mouseX, double mouseY);
 
+    abstract public Shape copyShape();
+
     abstract public String drawSVG();
 
 }

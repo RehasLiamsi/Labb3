@@ -15,7 +15,16 @@ public class Circle extends Shape{
 
     @Override
     public boolean isInsideShape(double mouseX, double mouseY) {
-        return false;
+        double distX = mouseX - getxCoordinate();
+        double distY = mouseY - getyCoordinate();
+        double distance = Math.sqrt((distX * distX) + (distY * distY));
+
+        return distance <= getSize()/2;
+    }
+
+    @Override
+    public Shape copyShape() {
+        return new Circle(getxCoordinate(), getyCoordinate(), getSize(), getChosenColor());
     }
 
     @Override

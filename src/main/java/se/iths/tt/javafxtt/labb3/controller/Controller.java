@@ -36,8 +36,9 @@ public class Controller {
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
 
-        model.sizeProperty().bindBidirectional(sizeSlider.valueProperty());
-        model.chosenColorProperty().bindBidirectional(colorPicker.valueProperty());
+        //sizeSlider.valueProperty().bindBidirectional(model.sizeProperty());
+
+        //colorPicker.valueProperty().bindBidirectional(model.chosenColorProperty());
     }
 
     public void setStage(Stage stage) {
@@ -50,12 +51,11 @@ public class Controller {
         if ((editCheckBox.isSelected())) {
             selectingExistingShape(mouseEvent);
         } else {
+            model.addToUndoStack();
             Shape newShape = shapeBuilder.createShape(
                     mouseEvent, circleRadioButton, squareRadioButton,
                     sizeSlider.getValue(), colorPicker.getValue());
             addToList(newShape);
-            model.addToUndoStack(newShape);
-            System.out.println("Before undo is list " + model.getObservableListOfShapes().size());
             drawShape();
         }
     }
@@ -63,9 +63,7 @@ public class Controller {
     private void selectingExistingShape(MouseEvent mouseEvent) {
         for (int i = 0; i < model.getObservableListOfShapes().size(); i++) {
             var thisShape = model.getObservableListOfShapes().get(i);
-            if (thisShape.isInsideShape(mouseEvent.getX(), mouseEvent.getY())
-                    || (thisShape.isInsideShape(mouseEvent.getX(), mouseEvent.getY()))) {
-                System.out.println("Existing shape");
+            if (thisShape.isInsideShape(mouseEvent.getX(), mouseEvent.getY())) {
                 selectShape(thisShape);
             }
         }
@@ -73,18 +71,16 @@ public class Controller {
 
 
     private void selectShape(Shape thisShape) {
-        clearCanvas();
+        model.addToUndoStack();
         if (colorAccordionButton.isExpanded())
             thisShape.setChosenColor(colorPicker.getValue());
         else if (sizeAccordionButton.isExpanded())
             thisShape.setSize(sizeSlider.getValue());
-        model.addToUndoStack(thisShape);
 
-        for (int i = 0; i < model.getObservableListOfShapes().size(); i++) {
-            graphicsContext.setFill(model.getObservableListOfShapes().get(i).getChosenColor());
-            model.getObservableListOfShapes().get(i).draw(graphicsContext);
-        }
+        clearCanvas();
+        drawShape();
     }
+
 
     private void clearCanvas() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -103,8 +99,8 @@ public class Controller {
 
     public void undoLastMove() {
         model.undoLastShape();
-        System.out.println("After undo is list " + model.getObservableListOfShapes().size());
         clearCanvas();
+        drawShape();
     }
 
     public void closeApplication() {
@@ -114,9 +110,8 @@ public class Controller {
     public void saveToFile(ActionEvent actionEvent) {
         try {
             model.writeToSvg();
-            System.out.println("Saved");
-        }catch (Exception e){
-            System.out.println("Save the file first");
+        }catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }

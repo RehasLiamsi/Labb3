@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShapeTemplateTest {
 
     Model model = new Model();
+
     Shape createNewShapeObject() {
         return new Circle(70, 24, 25, Color.BLUEVIOLET);
     }
@@ -20,7 +21,7 @@ class ShapeTemplateTest {
         var actualListSize = model.getObservableListOfShapes().size();
         var expectedSize = 1;
 
-        assertEquals(expectedSize,actualListSize);
+        assertEquals(expectedSize, actualListSize);
     }
 
     @Test
@@ -38,7 +39,7 @@ class ShapeTemplateTest {
         var actualListSize = model.getObservableListOfShapes().size();
         var expectedSize = 1;
 
-        assertEquals(expectedSize,actualListSize);
+        assertEquals(expectedSize, actualListSize);
 
     }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShapeTemplateTest {
+class ShapeModelTest {
 
     Model model = new Model();
 

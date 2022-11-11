@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.util.ArrayDeque;
 
 public class Model {
@@ -35,7 +34,6 @@ public class Model {
     }
 
 
-
     public void addToListOfShapes(Shape shape) {
         observableListOfShapes.add(shape);
     }
@@ -60,6 +58,6 @@ public class Model {
     }
 
     public void writeToSvg() {
-        svgWriter.save(this);
+        svgWriter.saveFile(this);
     }
 }

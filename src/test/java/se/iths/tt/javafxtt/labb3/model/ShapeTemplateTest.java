@@ -1,21 +1,23 @@
 package se.iths.tt.javafxtt.labb3.model;
 
+import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShapeTemplateTest {
 
-    ShapeTemplate createNewShapeObject() {
-        return new CircleTemplate();
+    Model model = new Model();
+    Shape createNewShapeObject() {
+        return new Circle(70, 24, 25, Color.BLUEVIOLET);
     }
 
     @Test
     void checkToSeeIfCreatingANewObjectAndAddingItToListIncreasesListSize() {
-        ShapeTemplate shape = createNewShapeObject();
-        shape.addToListOfShapes(shape);
+        Shape shape = createNewShapeObject();
+        model.addToListOfShapes(shape);
 
-        var actualListSize = shape.getObservableListOfShapes().size();
+        var actualListSize = model.getObservableListOfShapes().size();
         var expectedSize = 1;
 
         assertEquals(expectedSize,actualListSize);
@@ -23,17 +25,17 @@ class ShapeTemplateTest {
 
     @Test
     void checkToSeeIfCallingUndoMethodReducesTheListSizeByOne() {
-        ShapeTemplate shape = createNewShapeObject();
-        shape.addToListOfShapes(shape);
-        ShapeTemplate shape2 = createNewShapeObject();
-        shape.addToListOfShapes(shape2);
+        Shape shape = createNewShapeObject();
+        model.addToListOfShapes(shape);
+        Shape shape2 = createNewShapeObject();
+        model.addToListOfShapes(shape2);
 
-        Command undo = () -> shape.getObservableListOfShapes().remove(shape2);
-        shape.getUndoDeque().push(undo);
+        Command undo = () -> model.getObservableListOfShapes().remove(shape2);
+        model.getUndoDeque().push(undo);
 
-        shape.undoLastShape();
+        model.undoLastShape();
 
-        var actualListSize = shape.getObservableListOfShapes().size();
+        var actualListSize = model.getObservableListOfShapes().size();
         var expectedSize = 1;
 
         assertEquals(expectedSize,actualListSize);

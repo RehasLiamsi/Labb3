@@ -20,6 +20,10 @@ public class Square extends Shape{
 
     @Override
     public String drawSVG() {
-        return null;
+        String color = "#" + getChosenColor().toString().subSequence(2,10);
+
+        return "<" + "rect" + " x=\"" + getxCoordinate() + "\"" + " y=\"" + getyCoordinate() + "\""
+                + " width=\"" + getSize() + "\"" + " height=\"" + getSize() + "\""
+                + " fill=\"" + color + "\"" + " />";
     }
 }

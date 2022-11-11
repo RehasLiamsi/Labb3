@@ -20,6 +20,10 @@ public class Circle extends Shape{
 
     @Override
     public String drawSVG() {
-        return null;
+
+        String color = "#" + getChosenColor().toString().subSequence(2,10);
+
+        return "<" + "circle" + " cx=\"" + getxCoordinate() + "\"" + " cy=\"" + getyCoordinate() + "\""
+                + " r=\"" + getSize() / 2 + "\"" + " fill=\"" + color + "\"" + " />";
     }
 }

@@ -13,8 +13,6 @@ import java.util.List;
 public class SVGWriter {
     Stage stage;
 
-    //FileChooser fileChooser = new FileChooser();
-
     public FileChooser createFileChooser(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilterPNG = new FileChooser.ExtensionFilter("PNG", "*.png");

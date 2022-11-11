@@ -112,6 +112,12 @@ public class Controller {
     }
 
     public void saveToFile(ActionEvent actionEvent) {
+        try {
+            model.writeToSvg();
+            System.out.println("Saved");
+        }catch (Exception e){
+            System.out.println("Save the file first");
+        }
 
     }
 }

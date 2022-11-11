@@ -16,8 +16,10 @@ public class Model {
     private final ObjectProperty<Color> chosenColor = new SimpleObjectProperty<>();
     private final ObservableList<Shape> observableListOfShapes = FXCollections.observableArrayList();
     private final ArrayDeque<Command> undoDeque = new ArrayDeque<>();
+    private final SVGWriter svgWriter;
 
     public Model() {
+        svgWriter = new SVGWriter();
     }
 
     public Color getChosenColor() {
@@ -55,5 +57,9 @@ public class Model {
     public void undoLastShape() {
         Command undoToExecute = getUndoDeque().pop();
         undoToExecute.execute();
+    }
+
+    public void writeToSvg() {
+        svgWriter.save(this);
     }
 }

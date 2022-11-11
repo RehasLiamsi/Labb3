@@ -1,7 +1,6 @@
 package se.iths.tt.javafxtt.labb3.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -35,10 +34,6 @@ public class Controller {
 
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
-
-        //sizeSlider.valueProperty().bindBidirectional(model.sizeProperty());
-
-        //colorPicker.valueProperty().bindBidirectional(model.chosenColorProperty());
     }
 
     public void setStage(Stage stage) {
@@ -107,10 +102,10 @@ public class Controller {
         Platform.exit();
     }
 
-    public void saveToFile(ActionEvent actionEvent) {
+    public void saveToFile() {
         try {
             model.writeToSvg();
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

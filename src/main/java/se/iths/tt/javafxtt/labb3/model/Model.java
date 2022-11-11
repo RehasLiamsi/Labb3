@@ -20,24 +20,31 @@ public class Model {
     public Model() {
         svgWriter = new SVGWriter();
     }
+
     public Color getChosenColor() {
         return chosenColor.get();
     }
+
     public ObjectProperty<Color> chosenColorProperty() {
         return chosenColor;
     }
+
     public DoubleProperty sizeProperty() {
         return size;
     }
+
     public void addToListOfShapes(Shape shape) {
         observableListOfShapes.add(shape);
     }
+
     public ObservableList<Shape> getObservableListOfShapes() {
         return observableListOfShapes;
     }
+
     public ArrayDeque<Command> getUndoDeque() {
         return undoDeque;
     }
+
     public void addToUndoStack() {
         ObservableList<Shape> tempList = copyOfObservableListOfShapes();
         Command undo = () -> {
@@ -46,6 +53,7 @@ public class Model {
         };
         getUndoDeque().push(undo);
     }
+
     public ObservableList<Shape> copyOfObservableListOfShapes() {
         ObservableList<Shape> tempList = FXCollections.observableArrayList();
 
@@ -54,6 +62,7 @@ public class Model {
         }
         return tempList;
     }
+
     public void undoLastShape() {
         Command undoToExecute = getUndoDeque().pop();
         undoToExecute.execute();

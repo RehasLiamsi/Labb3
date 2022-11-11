@@ -1,3 +1,4 @@
+/*
 package se.iths.tt.javafxtt.labb3.controller;
 
 import javafx.application.Platform;
@@ -42,6 +43,8 @@ public class LabbThreeController {
 
         shape.sizeProperty().bindBidirectional(sizeSlider.valueProperty());
         shape.chosenColorProperty().bindBidirectional(colorPicker.valueProperty());
+
+        shape.addToListOfSVG(shape.startSVGString());
 
     }
 
@@ -105,6 +108,7 @@ public class LabbThreeController {
                 .buildCircle();
         addToList(newCircle);
         shape.addToUndoStack(newCircle);
+        shape.drawCircleSVG();
         System.out.println("Before undo is list " + shape.getObservableListOfShapes().size());
 
         return newCircle;
@@ -127,6 +131,8 @@ public class LabbThreeController {
                 .buildSquare();
         addToList(newSquare);
         shape.addToUndoStack(newSquare);
+        newSquare.drawSquareSVG();
+
         return newSquare;
     }
 
@@ -156,3 +162,4 @@ public class LabbThreeController {
 }
 
 
+*/

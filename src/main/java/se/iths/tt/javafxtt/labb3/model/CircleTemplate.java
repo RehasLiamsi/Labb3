@@ -1,3 +1,4 @@
+/*
 package se.iths.tt.javafxtt.labb3.model;
 
 
@@ -36,3 +37,4 @@ public class CircleTemplate extends ShapeTemplate {
         return distance <= shape.getSize();
     }
 }
+*/

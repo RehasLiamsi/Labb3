@@ -1,4 +1,4 @@
-package se.iths.tt.javafxtt.labb3.model;
+/*package se.iths.tt.javafxtt.labb3.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class ShapeTemplate {
     private ObjectProperty<Color> chosenColor = new SimpleObjectProperty<>();
     private ObservableList<ShapeTemplate> observableListOfShapes = FXCollections.observableArrayList();
     private ArrayDeque<Command> undoDeque = new ArrayDeque<>();
+    private List<String> listOfSVG = new ArrayList<>();
+    Path filePath;
 
     public ShapeTemplate() {}
     public ShapeTemplate(double xCoordinate, double yCoordinate, double size, Color chosenColor) {
@@ -97,7 +100,7 @@ public class ShapeTemplate {
         return this.yCoordinate- halfSize;
     }
 
-    public void addToListOfShapes(ShapeTemplate shape) {
+    public void addToListOfShapes(Shape shape) {
         observableListOfShapes.add(shape);
     }
 
@@ -131,8 +134,12 @@ public class ShapeTemplate {
         undoToExecute.execute();
     }
 
+    public List<String> getListOfSVG(){
+        return listOfSVG;
+    }
 
-    public FileChooser createFileChooser() {
+
+    public FileChooser createFileChooser(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilterPNG = new FileChooser.ExtensionFilter("PNG", "*.png");
         FileChooser.ExtensionFilter extensionFilterSVG = new FileChooser.ExtensionFilter("SVG", "*.svg");
@@ -141,11 +148,13 @@ public class ShapeTemplate {
         fileChooser.getExtensionFilters().clear();
         fileChooser.getExtensionFilters().addAll(
                 extensionFilterPNG,extensionFilterSVG);
+        filePath = fileChooser.showSaveDialog(stage.getOwner()).toPath();
+
         return fileChooser;
     }
 
     public void saveFileToPng(Canvas canvas, Stage stage) {
-        File file = createFileChooser().showSaveDialog(stage);
+        File file = createFileChooser(stage).showSaveDialog(stage);
 
         if(file != null) {
             WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
@@ -160,32 +169,44 @@ public class ShapeTemplate {
     }
 
     public void saveToSVG(Stage stage) {
-        createFileChooser();
-        File file = createFileChooser().showSaveDialog(stage);
-
-        List<String> svgString = new ArrayList<>();
-        createSVGString(svgString);
+        createFileChooser(stage);
+        try {
+            Files.write(filePath, getListOfSVG());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public String drawSVG(){
-        return null;
+    public void drawSquareSVG(){
+        String colorToString = "#" + getChosenColor().toString().substring(2,10);
+
+        var squareToSVG = "<rect x=\"" + getxCoordinate() + "\" " +
+                "y=\"" + getyCoordinate() + "\" " +
+                "width=\"" + getSize() + "\" " +
+                "height=\"" + getSize() + "\" "+
+                "fill=\"" + colorToString + "\" />";
+
+        addToListOfSVG(squareToSVG);
     };
 
-    private void createSVGString(List<String> list) {
-        list.add(startSVGString());
-        getObservableListOfShapes().forEach(shapeTemplate -> dataToString(shapeTemplate, list));
-        list.add(endSVGString());
+    public void addToListOfSVG(String string){
+        listOfSVG.add(string);
     }
+   *//*private void createSVGString() {
+        //list.add(startSVGString());
+        //getObservableListOfShapes().forEach(shapeTemplate -> dataToString(shapeTemplate, list));
+        listOfSVG.add(endSVGString());
+    }*//*
 
     private String endSVGString() {
         return "</svg>";
     }
 
     private void dataToString(ShapeTemplate shape, List<String> list) {
-        list.add(shape.drawSVG());
+        //list.add(shape.drawSquareSVG());
     }
 
-    private String startSVGString() {
+    public String startSVGString() {
         return String.join(" ",
                 "<svg" ,
                 "xmlns=\"http://www.w3.org/2000/svg\"",
@@ -193,4 +214,13 @@ public class ShapeTemplate {
                 "width=\"600.0\"",
                 "height=\"400.0\">");
     }
-}
+
+    public void drawCircleSVG() {
+        String colorToString = "#" + getChosenColor().toString().substring(2, 10);
+        var circleSVG = "<<circle cx=\"" + getxCoordinate() + "\" " +
+                "cy=\"" + getyCoordinate() + "\" " +
+                "r=\"" + getSize() + "\"" +
+                "fill=\"" + colorToString + "\" />";
+        addToListOfSVG(circleSVG);
+    }
+}*/

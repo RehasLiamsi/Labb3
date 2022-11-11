@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShapeTemplateTest {
 
     ShapeTemplate createNewShapeObject() {
-        return new ShapeTemplate();
+        return new CircleTemplate();
     }
 
     @Test

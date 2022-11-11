@@ -1,19 +1,16 @@
 package se.iths.tt.javafxtt.labb3.controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import se.iths.tt.javafxtt.labb3.model.*;
-
-import java.util.Iterator;
-import java.util.List;
+import se.iths.tt.javafxtt.labb3.model.CircleTemplate;
+import se.iths.tt.javafxtt.labb3.model.ShapeBuilder;
+import se.iths.tt.javafxtt.labb3.model.ShapeTemplate;
+import se.iths.tt.javafxtt.labb3.model.SquareTemplate;
 
 public class LabbThreeController {
 
@@ -33,7 +30,6 @@ public class LabbThreeController {
     public RadioButton squareRadioButton;
     public TitledPane shapeAccordionButton;
     public ToggleGroup shapeGroup;
-    public Color color;
     public Stage stage;
     public TitledPane editAccordionButton;
     public CheckBox editCheckBox;
@@ -43,7 +39,6 @@ public class LabbThreeController {
 
     public void initialize() {
         graphicsContext = canvas.getGraphicsContext2D();
-        //shape.setChosenColor(colorPicker.getValue());
 
         shape.sizeProperty().bindBidirectional(sizeSlider.valueProperty());
         shape.chosenColorProperty().bindBidirectional(colorPicker.valueProperty());
@@ -77,9 +72,9 @@ public class LabbThreeController {
 
     private void selectShape(ShapeTemplate thisShape, MouseEvent mouseEvent) {
         clearCanvas();
-        if(colorAccordionButton.isExpanded())
+        if (colorAccordionButton.isExpanded())
             thisShape.setChosenColor(colorPicker.getValue());
-        else if(sizeAccordionButton.isExpanded())
+        else if (sizeAccordionButton.isExpanded())
             thisShape.setSize(sizeSlider.getValue());
         shape.addToUndoStack(thisShape);
 
@@ -151,7 +146,8 @@ public class LabbThreeController {
 
 
     public void saveToFile() {
-        shape.saveFileToPng(canvas, stage);
+        //shape.saveFileToPng(canvas, stage);
+        shape.saveToSVG(stage);
     }
 
     public void closeApplication() {
